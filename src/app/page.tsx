@@ -1,14 +1,14 @@
 import Image from "next/image";
 import { Button } from "../components/ui/button";
 import { SignInButton, SignUpButton } from "@clerk/nextjs";
-import {auth} from "@clerk/nextjs/server"
+import {auth, userButton} from "@clerk/nextjs/server"
 import Link from "next/link";
 import {LogIn} from "lucide-react"
 
 export default async function Home() {
 
     const {userId} = await auth();
-    const isAuth = !userId  // !! converts it into boolean
+    const isAuth = !!userId  // !! converts it into boolean
     // if(!userId) return  redirectToSignIn();
 
   return (
@@ -17,15 +17,16 @@ export default async function Home() {
         <div className="flex flex-col items-center text-center">
           <div className="flex items-center">
             <h1 className = "text-slate-200 text-6xl font-bold">Chat with any pdf</h1>
+            {isAuth && <userButton />}
           </div>
 
           <p className ="text text-xl mt-2 text-slate-400">
-            Effortlessly chat with any pdf
+            Effortlessly chat with any pdf using RAG 
           </p>
 
-          <div>
+          <div className = "mt-3">
             {isAuth ? (<h1>file upload</h1>):
-            (<Link href="/signin">
+            (<Link href="/sign-in">
             <Button >Login to get started
               <LogIn className = "w-4 h-4"/>
             </Button>
