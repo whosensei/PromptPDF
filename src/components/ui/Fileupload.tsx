@@ -20,10 +20,12 @@ export const Fileupload = () => {
     const { getRootProps, getInputProps } = useDropzone(dropzoneOptions);
     return (
         <div className="bg-slate-100 rounded-xl p-2">
-            <div {...getRootProps} className= " bg-slate-200 border-slate-400 border-dashed border-2 rounded-xl flex justify-center items-center flex-col cursor-pointer">
-                <Inbox className = " w-12 h-12 p-2 color-slate-200 text-slate-500 mt-2" />
-                <div className = "px-2 ml-2 mr-2 mb-2">Drop Your File here</div>
+            <div {...getRootProps()} className= " bg-slate-100 border-slate-400 border-dashed border-2 rounded-xl flex justify-center items-center flex-col cursor-pointer">
                 <input {...getInputProps()} />
+                <>
+                <Inbox className = " w-12 h-12 p-2 color-slate-200 text-slate-500 mt-2" />
+                <div className = "px-2 ml-2 mr-2 mb-2 text-slate-500">Drop Your File here</div>
+                </>
             </div>
         </div>
     )
