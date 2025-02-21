@@ -29,7 +29,6 @@ export const Fileupload = () => {
             }
         }
     };
-y
 
     // Initialize dropzone with configuration
     const { getRootProps, getInputProps } = useDropzone(dropzoneOptions);
