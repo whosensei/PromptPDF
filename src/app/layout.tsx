@@ -9,6 +9,7 @@ import {
   UserButton
 } from '@clerk/nextjs'
 
+import {Toaster} from "react-hot-toast"
 import Providers from "@/components/ui/providers"
 
 const geistSans = Geist({
@@ -38,6 +39,7 @@ export default function RootLayout({
         <body>
           {children}
         </body>
+        <Toaster />
       </html>
       </Providers>
     </ClerkProvider>
