@@ -9,6 +9,8 @@ import {
   UserButton
 } from '@clerk/nextjs'
 
+import Providers from "@/components/ui/providers"
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -31,11 +33,13 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
+      <Providers>
       <html lang="en">
         <body>
           {children}
         </body>
       </html>
+      </Providers>
     </ClerkProvider>
   );
 }
