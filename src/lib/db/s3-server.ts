@@ -18,7 +18,7 @@ export async function downloadFromS3(file_key: string): Promise<string> {
             };
 
             const obj = await s3.getObject(params).promise(); // Added .promise()
-            const file_name = path.join(process.cwd(), "tmp", `elliott${Date.now().toString()}.pdf`);
+            const file_name = path.join(process.cwd(), "tmp", `dips${Date.now().toString()}.pdf`);
 
             // Ensure the tmp directory exists
             const dir = path.dirname(file_name);
