@@ -20,9 +20,7 @@ export default async function Home() {
             <h1 className = "text-slate-200 text-6xl font-bold">Chat with any pdf</h1>
             {isAuth && <div className="ml-4"><UserButton /></div>}
           </div>
-            {isAuth  && <Button className = "mt-2">
-            Go to Chats<MessageCircle className = "h-4 w-4 "/>
-              </Button>}
+            
 
           <p className ="text text-xl mt-2 text-slate-400">
             Effortlessly chat with any pdf using RAG
@@ -31,7 +29,17 @@ export default async function Home() {
           </p>
 
           <div className = "mt-4">
-            {isAuth ? (<Fileupload />):
+            {isAuth ? (
+              <div className="flex justify-center gap-4">
+                <div>
+                  <Button>
+                    Go to Chats<MessageCircle className="h-4 w-4" />
+                  </Button>
+                </div>
+                <div>
+                  <Fileupload />
+                </div>
+              </div>) :
             (<Link href="/sign-in">
             <Button >Login to get started
               <LogIn className = "w-4 h-4"/>

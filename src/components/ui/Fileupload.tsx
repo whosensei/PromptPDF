@@ -7,6 +7,8 @@ import {useMutation} from "@tanstack/react-query"
 import axios from "axios"
 import {Toaster, toast} from "react-hot-toast"
 import { useState } from "react"
+import { Upload } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 export const Fileupload = () => {
 
@@ -63,22 +65,43 @@ export const Fileupload = () => {
     // Initialize dropzone with configuration
     const { getRootProps, getInputProps } = useDropzone(dropzoneOptions);
     return (
-        <div className="bg-slate-100 rounded-xl p-2">
-            <div {...getRootProps()} className= " bg-slate-100 border-slate-400 border-dashed border-2 rounded-xl flex justify-center items-center flex-col cursor-pointer">
-                <input {...getInputProps()} />
-                {(upload || isPending) ? (
-                    <>
-                    <Loader2 className = "w-12 h-12 p-2 color-slate-200 text-slate-500 mt-2 animate-spin" />
-                    <p className = "mt-2 text-slate-400">
-                        uploading...
-                    </p>
-                    </>
-                ) :(
+
+        <Button {...getRootProps()} className="w-full flex items-center">
+            <input {...getInputProps()} />
+            {upload || isPending ? (
                 <>
-                <Inbox className = " w-12 h-12 p-2 color-slate-200 text-slate-500 mt-2" />
-                <div className = "px-2 ml-2 mr-2 mb-2 text-slate-500">Drop Your File here</div>
-                </>)}
-            </div>
-        </div>
+                    <Loader2 className="h-6 w-6 animate-spin" />
+                    <p className="text-sm">
+                        Uploading...
+                    </p>
+                </>
+            ) : (
+                <>
+                    <p className=" text-sm">Upload Your File Here</p>
+                    <Upload className="h-6 w-6" />
+                </>
+            )}
+        </Button>
+
+
+
+
+        // <div className=" bg-slate-100 rounded-xl p-2">
+        //     <div {...getRootProps()} className= "bg-slate-100 border-slate-400 border-dashed border-2 rounded-xl flex justify-center items-center flex-col cursor-pointer">
+        //         <input {...getInputProps()} />
+        //         {(upload || isPending) ? (
+        //             <>
+        //             <Loader2 className = "w-12 h-12 p-2 color-slate-200 text-slate-500 mt-2 animate-spin" />
+        //             <p className = "mt-2 text-slate-400">
+        //                 uploading...
+        //             </p>
+        //             </>
+        //         ) :(
+        //         <>
+        //         <Inbox className = " w-12 h-12 p-2 color-slate-200 text-slate-500 mt-2" />
+        //         <div className = "px-2 ml-2 mr-2 mb-2 text-slate-500">Drop Your File here</div>
+        //         </>)}
+        //     </div>
+        // </div>
     )
 }
