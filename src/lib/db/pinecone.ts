@@ -3,6 +3,10 @@ import { downloadFromS3 } from "./s3-server";
 import fs from "fs";
 import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
 import {RecursiveCharacterTextSplitter, Document} from "@pinecone-database/doc-splitter"
+import { getEmbeddings } from "./embeddings";
+import md5 from "md5";
+import {convertToAscii} from "../utils";
+
 
 export const getPineconeClient = () => {
     if (!process.env.PINECONE_ENVIRONMENT || !process.env.PINECONE_API_KEY) {
@@ -32,8 +36,21 @@ export async function loadS3intoPinecone (file_key : string){
     const pages = (await loader.load()) as PDFPage[];
 
     const documents = await Promise.all(pages.map(prepareDocument));
+    // Check if documents exist and are not empty before processing
+    if (!documents || documents.length === 0) {
+        return [];
+    }
+    
+    const flattenedDocs = documents.filter(Boolean).flat();
+    const vectors = await Promise.all(flattenedDocs.map(embedDocument));
 
-    return pages;
+    const client = await getPineconeClient();
+    const Index = client.Index("pdfgenie-yt");
+    const namespace = Index.namespace(convertToAscii(file_key));
+    console.log("inserting vectors into pinecone");
+    await namespace.upsert(vectors);
+    return documents[0];
+    
 }
 
 async function truncateStringByBytes(str : string , bytes: number) {
@@ -41,6 +58,24 @@ async function truncateStringByBytes(str : string , bytes: number) {
     return new TextDecoder("utf-8").decode(encoder.encode(str).slice(0, bytes));
 }
 
+async function embedDocument (doc: Document) {
+    try{
+        const embeddings = await getEmbeddings(doc.pageContent);
+        const hash = md5(doc.pageContent);
+        return {
+            id: hash,
+            values: embeddings,
+            metadata: {
+                text: doc.metadata.text,
+                pageNumber: doc.metadata.pageNumber,
+            },
+        } as PineconeRecord;
+
+    }catch(error){
+        console.log("Error embedding document", error);
+        throw error;
+    }
+}
 
 async function prepareDocument(page: PDFPage){
     let {pageContent, metadata} = page;
@@ -56,4 +91,5 @@ async function prepareDocument(page: PDFPage){
             }
         }) 
     ]);
+    return docs;
 }
