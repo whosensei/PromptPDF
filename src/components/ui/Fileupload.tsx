@@ -1,7 +1,7 @@
 "use client";
 import React from "react"
 import { useDropzone} from "react-dropzone"
-import {Inbox, Loader2} from "lucide-react"
+import {Inbox, Loader2, Router} from "lucide-react"
 import { uploadToS3 } from "@/lib/db/s3";
 import {useMutation} from "@tanstack/react-query"
 import axios from "axios"
@@ -9,9 +9,10 @@ import {Toaster, toast} from "react-hot-toast"
 import { useState } from "react"
 import { Upload } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import {useRouter} from "next/navigation"
 
 export const Fileupload = () => {
-
+    const router  = useRouter();
     const [upload,setuploading] = useState(false);
 
     const { mutate, isPending } = useMutation({
@@ -43,9 +44,10 @@ export const Fileupload = () => {
                 }
 
                 mutate(data , {
-                    onSuccess: (data) =>{
+                    onSuccess: ({chat_id}) =>{
                         // toast.success(data.message)
                         console.log(data)
+                        router.push(`/chat/${chat_id}`)
                     },
                     onError: (error)=>{
                         toast.error("error creating chat")
