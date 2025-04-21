@@ -1,12 +1,13 @@
 import { NextResponse } from "next/server";
 import {loadS3intoPinecone} from "../../../lib/db/pinecone";
-import { auth } from "@clerk/nextjs/server";
+// import { auth } from "@clerk/nextjs/server";
 import { db } from "@/lib/db";
 import { getS3Url } from "@/lib/db/s3";
 import { chats } from "@/lib/db/schema";
 
 export async function POST (req : Request , res : Response) {
-    const {userId} = await auth();
+    // const {userId} = await auth();  clerk auth
+    const userId = ""
     if(!userId){
         return NextResponse.json({error: "Unauthorized"},{status : 401})
     }

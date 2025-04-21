@@ -10,6 +10,8 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import axios from "axios"
+import { toast } from "react-hot-toast"
 
 export function SignInForm() {
     const [email, setEmail] = useState("")
@@ -21,14 +23,22 @@ export function SignInForm() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         setIsLoading(true)
-
-        // Simulate authentication
         try {
-            // In a real app, you would call your auth API here
-            await new Promise((resolve) => setTimeout(resolve, 1000))
-            router.push("/chats")
-        } catch (error) {
+            const SigninResponse = await axios.post("/api/sign-in", {
+                email,
+                password
+            })
+            
+            if(SigninResponse.status === 200){
+                const token = SigninResponse.data.token
+                document.cookie = `token=${token}; path=/; max-age=86400; secure; samesite=strict`
+                toast.success("Signed in successfully!")
+                router.push("/uploadfile")
+                
+            }
+        } catch (error: any) {
             console.error("Authentication error:", error)
+            toast.error(error.response?.data?.message || "Failed to sign in")
         } finally {
             setIsLoading(false)
         }
@@ -110,7 +120,7 @@ export function SignInForm() {
                     </Button>
                     <p className="text-center text-sm text-zinc-400">
                         Don&apos;t have an account?{" "}
-                        <Link href="/signup" className="text-primary hover:text-primary/90 font-medium">
+                        <Link href="/sign-up" className="text-primary hover:text-primary/90 font-medium">
                             Sign up
                         </Link>
                     </p>
