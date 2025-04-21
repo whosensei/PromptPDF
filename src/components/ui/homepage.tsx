@@ -1,30 +1,28 @@
 "use client"
 
 import type React from "react"
-
+import { useEffect } from "react"
 import { Button } from "@/components/ui/button"
-import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { Upload, LogIn } from "lucide-react"
+import { LogIn } from "lucide-react"
 
 export function HeroSection() {
-    // Mock authentication state - in a real app, use a proper auth solution
-    const [isSignedIn, setIsSignedIn] = useState(false)
+
     const router = useRouter()
-
-    const handleAuth = () => {
-        if (isSignedIn) {
-            router.push("/chats")
-        } else {
-            // Redirect to sign in page
-            router.push("/signin")
+    
+    useEffect(() => {
+        // Check if user is signed in by checking for token cookie
+        const token = document.cookie.split('; ').find(row => row.startsWith('token='))
+        const isAuthenticated = !!token
+        
+        // If user is already signed in, scroll to file upload section
+        if (isAuthenticated) {
+            const uploadSection = document.getElementById('upload-section')
+            if (uploadSection) {
+                uploadSection.scrollIntoView({ behavior: 'smooth' })
+            }
         }
-    }
-
-    const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-        // Handle file upload logic here
-        console.log("File selected:", e.target.files?.[0])
-    }
+    }, [])
 
     return (
         <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-black to-zinc-900">
@@ -39,44 +37,18 @@ export function HeroSection() {
                         research with AI
                     </p>
 
-                    {!isSignedIn ? (
                         <div className="space-y-8 w-full max-w-md">
                             <div className="flex flex-col gap-4">
                                 <Button
                                     size="lg"
                                     className="bg-primary text-primary-foreground hover:bg-primary/90"
-                                    onClick={handleAuth}
+                                    onClick={()=>router.push("/sign-in")}
                                 >
                                     Login to get started
                                     <LogIn className="ml-2 h-4 w-4" />
                                 </Button>
                             </div>
                         </div>
-                    ) : (
-                        <div className="space-y-8 w-full max-w-md">
-                            <div className="relative border-2 border-dashed border-zinc-700 rounded-lg p-8 hover:border-primary/50 transition-colors">
-                                <input
-                                    type="file"
-                                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                                    accept=".pdf"
-                                    onChange={handleFileUpload}
-                                />
-                                <div className="flex flex-col items-center space-y-4">
-                                    <Upload className="h-10 w-10 text-zinc-400" />
-                                    <p className="text-zinc-300">Upload your PDF file</p>
-                                    <p className="text-zinc-500 text-sm">Drag and drop or click to browse</p>
-                                </div>
-                            </div>
-
-                            <Button
-                                size="lg"
-                                className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
-                                onClick={handleAuth}
-                            >
-                                Go to Chats
-                            </Button>
-                        </div>
-                    )}
                 </div>
             </div>
         </section>

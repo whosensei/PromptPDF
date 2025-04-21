@@ -1,16 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import {
-  ClerkProvider,
-  SignInButton,
-  SignedIn,
-  SignedOut,
-  UserButton
-} from '@clerk/nextjs'
 
 import {Toaster} from "react-hot-toast"
-import Providers from "@/components/ui/providers"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,15 +25,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
-      <Providers>
       <html lang="en">
         <body>
           {children}
         </body>
         <Toaster />
       </html>
-      </Providers>
-    </ClerkProvider>
   );
 }
