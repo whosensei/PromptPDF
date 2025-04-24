@@ -76,7 +76,7 @@ export function ChatInterface() {
   // Handle mouse movement for sidebar hover effect
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!sidebarLocked) {
-      const threshold = 50 // pixels from left edge
+      const threshold = 280 // pixels from left edge
       setSidebarHover(e.clientX <= threshold)
     }
   }
