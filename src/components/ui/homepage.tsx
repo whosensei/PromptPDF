@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
 import { LogIn } from "lucide-react"
+import { FadeUp } from "./fade-up"
 
 export function HeroSection() {
     const router = useRouter()
@@ -36,14 +37,21 @@ export function HeroSection() {
 
             <div className="container px-4 md:px-6 relative z-10">
                 <div className="flex flex-col items-center text-center space-y-8">
-                    <h1 className="text-4xl md:text-6xl font-bold tracking-tighter text-white max-w-3xl">Chat with Any PDF</h1>
-                    <p className="text-xl text-zinc-200 max-w-[600px]">
-                        Join millions of students, researchers and professionals to instantly answer questions and understand
-                        research with AI
-                    </p>
+                    <FadeUp delay={0.2}>
+                        <h1 className="text-4xl md:text-6xl font-bold tracking-tighter text-white max-w-3xl">
+                            Chat with Any PDF
+                        </h1>
+                    </FadeUp>
+                    <FadeUp delay={0.3}>
+                        <p className="text-xl text-zinc-200 max-w-[600px]">
+                            Join millions of students, researchers and professionals to instantly answer questions and understand
+                            research with AI
+                        </p>
+                    </FadeUp>
 
-                        <div className="space-y-8 w-full max-w-md">
-                            <div className="flex flex-col gap-4">
+                    <div className="space-y-8 w-full max-w-md">
+                        <div className="flex flex-col gap-4">
+                            <FadeUp delay={0.4}>
                                 <Button
                                     size="lg"
                                     className="bg-primary text-primary-foreground hover:bg-primary/90"
@@ -54,8 +62,9 @@ export function HeroSection() {
                                     Login to get started
                                     <LogIn className="ml-2 h-4 w-4" />
                                 </Button>
-                            </div>
+                            </FadeUp>
                         </div>
+                    </div>
                 </div>
             </div>
         </section>
