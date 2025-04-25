@@ -1,21 +1,19 @@
 "use client"
 
 import type React from "react"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
 import { LogIn } from "lucide-react"
 
 export function HeroSection() {
-
     const router = useRouter()
+    const [isNavigating, setIsNavigating] = useState(false)
     
     useEffect(() => {
-        // Check if user is signed in by checking for token cookie
         const token = document.cookie.split('; ').find(row => row.startsWith('token='))
         const isAuthenticated = !!token
         
-        // If user is already signed in, scroll to file upload section
         if (isAuthenticated) {
             const uploadSection = document.getElementById('upload-section')
             if (uploadSection) {
@@ -23,6 +21,13 @@ export function HeroSection() {
             }
         }
     }, [])
+
+    const handleLogin = () => {
+        setIsNavigating(true)
+        setTimeout(() => {
+            router.push("/sign-in")
+        }, 300)
+    }
 
     return (
         <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-black to-zinc-900">
@@ -42,7 +47,9 @@ export function HeroSection() {
                                 <Button
                                     size="lg"
                                     className="bg-primary text-primary-foreground hover:bg-primary/90"
-                                    onClick={()=>router.push("/sign-in")}
+                                    onClick={handleLogin}
+                                    loading={isNavigating}
+                                    loadingText="Redirecting..."
                                 >
                                     Login to get started
                                     <LogIn className="ml-2 h-4 w-4" />

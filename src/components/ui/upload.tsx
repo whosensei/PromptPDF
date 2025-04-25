@@ -2,14 +2,23 @@
 import { Button } from "./button"
 import { useRouter } from "next/navigation"
 import { Fileupload } from "./Fileupload"
-import { Upload } from "lucide-react"
+import { Upload, MessageCircle } from "lucide-react"
+import { useState } from "react"
 
 export function UploadFile() {
-
     const router = useRouter()
+    const [isNavigating, setIsNavigating] = useState(false)
+    
     const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         Fileupload()
         console.log("File selected:", e.target.files?.[0])
+    }
+
+    const handleGoToChats = () => {
+        setIsNavigating(true)
+        setTimeout(() => {
+            router.push("/chats")
+        }, 300)
     }
 
     return (
@@ -42,8 +51,11 @@ export function UploadFile() {
                         <Button
                             size="lg"
                             className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
-                            onClick={() => router.push("/chats")}
+                            onClick={handleGoToChats}
+                            loading={isNavigating}
+                            loadingText="Loading chats..."
                         >
+                            <MessageCircle className="mr-2 h-4 w-4" />
                             Go to Chats
                         </Button>
                     </div>

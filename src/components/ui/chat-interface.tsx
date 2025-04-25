@@ -2,12 +2,13 @@
 
 import type React from "react"
 
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef, useEffect, useCallback } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Send, Paperclip, Smile, Menu, X, ChevronRight } from "lucide-react"
 import { Avatar } from "@/components/ui/avatar"
 import { AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import debounce from 'lodash/debounce'
 
 interface Message {
   id: string
@@ -26,42 +27,57 @@ export function ChatInterface() {
     },
   ])
   const [inputValue, setInputValue] = useState("")
+  const [isSending, setIsSending] = useState(false)
   const [sidebarOpen, setSidebarOpen] = useState(true)
   const [sidebarHover, setSidebarHover] = useState(false)
   const [sidebarLocked, setSidebarLocked] = useState(true)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
-  // Scroll to bottom when messages change
-  useEffect(() => {
+  const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
-  }, [messages])
-
-  const handleSendMessage = () => {
-    if (!inputValue.trim()) return
-
-    // Add user message
-    const newMessage: Message = {
-      id: Date.now().toString(),
-      content: inputValue,
-      sender: "user",
-      timestamp: new Date(),
-    }
-    setMessages((prev) => [...prev, newMessage])
-    setInputValue("")
-
-    // Simulate bot response
-    setTimeout(() => {
-      const botResponse: Message = {
-        id: (Date.now() + 1).toString(),
-        content: "I'm analyzing your question. Here's what I found in your PDF...",
-        sender: "bot",
-        timestamp: new Date(),
-      }
-      setMessages((prev) => [...prev, botResponse])
-    }, 1000)
   }
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
+  useEffect(() => {
+    scrollToBottom()
+  }, [messages])
+
+  const handleSendMessage = useCallback(
+    debounce(async () => {
+      if (!inputValue.trim() || isSending) return
+
+      setIsSending(true)
+      const newMessage: Message = {
+        id: Date.now().toString(),
+        content: inputValue,
+        sender: "user",
+        timestamp: new Date(),
+      }
+
+      setMessages((prev) => [...prev, newMessage])
+      setInputValue("")
+
+      try {
+        // Simulate API call
+        await new Promise((resolve) => setTimeout(resolve, 1000))
+        
+        const botResponse: Message = {
+          id: (Date.now() + 1).toString(),
+          content: "This is a simulated response.",
+          sender: "bot",
+          timestamp: new Date(),
+        }
+
+        setMessages((prev) => [...prev, botResponse])
+      } catch (error) {
+        console.error("Failed to send message:", error)
+      } finally {
+        setIsSending(false)
+      }
+    }, 300),
+    [inputValue, isSending]
+  )
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault()
       handleSendMessage()
@@ -73,17 +89,15 @@ export function ChatInterface() {
     setSidebarOpen(!sidebarOpen)
   }
 
-  // Handle mouse movement for sidebar hover effect
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!sidebarLocked) {
-      const threshold = 280 // pixels from left edge
+      const threshold = 280 
       setSidebarHover(e.clientX <= threshold)
     }
   }
 
   return (
     <div className="flex h-screen bg-zinc-900 relative" onMouseMove={handleMouseMove}>
-      {/* Sidebar */}
       <div
         className={`fixed top-0 left-0 h-full z-20 transition-all duration-300 ease-in-out ${
           sidebarOpen || sidebarHover ? "translate-x-0" : "-translate-x-full"
@@ -165,7 +179,7 @@ export function ChatInterface() {
           </div>
         </div>
 
-        {/* Input area */}
+        {/* Input area */} 
         <div className="border-t border-zinc-800 p-4 bg-zinc-900/90 backdrop-blur-sm">
           <div className="max-w-3xl mx-auto">
             <div className="flex items-end gap-2">
@@ -176,13 +190,24 @@ export function ChatInterface() {
                   onKeyDown={handleKeyDown}
                   placeholder="Ask a question about your PDF..."
                   className="border-0 bg-transparent focus-visible:ring-0 text-zinc-200 placeholder:text-zinc-500"
+                  disabled={isSending}
                 />
                 <div className="flex justify-between items-center mt-2">
                   <div className="flex gap-2">
-                    <Button variant="ghost" size="icon" className="h-8 w-8 text-zinc-400 hover:text-white">
+                    <Button 
+                      variant="ghost" 
+                      size="icon" 
+                      className="h-8 w-8 text-zinc-400 hover:text-white"
+                      disabled={isSending}
+                    >
                       <Paperclip className="h-4 w-4" />
                     </Button>
-                    <Button variant="ghost" size="icon" className="h-8 w-8 text-zinc-400 hover:text-white">
+                    <Button 
+                      variant="ghost" 
+                      size="icon" 
+                      className="h-8 w-8 text-zinc-400 hover:text-white"
+                      disabled={isSending}
+                    >
                       <Smile className="h-4 w-4" />
                     </Button>
                   </div>
@@ -190,6 +215,9 @@ export function ChatInterface() {
                     onClick={handleSendMessage}
                     size="sm"
                     className="bg-primary text-primary-foreground hover:bg-primary/90"
+                    loading={isSending}
+                    loadingText="Sending..."
+                    disabled={!inputValue.trim() || isSending}
                   >
                     <Send className="h-4 w-4 mr-2" />
                     Send

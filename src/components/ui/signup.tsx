@@ -23,8 +23,9 @@ export function SignUpForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (isLoading) return
+    
     setIsLoading(true)
-
     try {
       const SignupResponse = await axios.post("/api/sign-up", {
         email, username, password
@@ -66,6 +67,7 @@ export function SignUpForm() {
               onChange={(e) => setEmail(e.target.value)}
               required
               className="border-zinc-700 bg-zinc-800/50 text-zinc-200 placeholder:text-zinc-500 focus-visible:ring-primary"
+              disabled={isLoading}
             />
           </div>
           <div className="space-y-2">
@@ -97,6 +99,7 @@ export function SignUpForm() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 className="border-zinc-700 bg-zinc-800/50 text-zinc-200 placeholder:text-zinc-500 focus-visible:ring-primary pr-10"
+                disabled={isLoading}
               />
               <Button
                 type="button"
@@ -104,6 +107,7 @@ export function SignUpForm() {
                 size="icon"
                 className="absolute right-0 top-0 h-full px-3 text-zinc-400 hover:text-zinc-300"
                 onClick={() => setShowPassword(!showPassword)}
+                disabled={isLoading}
               >
                 {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 <span className="sr-only">{showPassword ? "Hide password" : "Show password"}</span>
@@ -115,19 +119,12 @@ export function SignUpForm() {
           <Button
             type="submit"
             className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
+            loading={isLoading}
+            loadingText="Creating account..."
             disabled={isLoading}
           >
-            {isLoading ? (
-              <div className="flex items-center">
-                <div className="h-4 w-4 border-2 border-current border-t-transparent animate-spin rounded-full mr-2" />
-                Signing up...
-              </div>
-            ) : (
-              <div className="flex items-center">
-                <LogIn className="mr-2 h-4 w-4" />
-                Sign up
-              </div>
-            )}
+            <LogIn className="mr-2 h-4 w-4" />
+            Sign up
           </Button>
           <p className="text-center text-sm text-zinc-400">
             Already have an account?{" "}
