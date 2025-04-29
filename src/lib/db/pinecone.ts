@@ -36,7 +36,7 @@ export async function loadS3intoPinecone (file_key : string){
     const pages = (await loader.load()) as PDFPage[];
 
     const documents = await Promise.all(pages.map(prepareDocument));
-    // Check if documents exist and are not empty before processing
+
     if (!documents || documents.length === 0) {
         return [];
     }
