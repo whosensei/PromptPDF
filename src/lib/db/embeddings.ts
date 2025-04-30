@@ -1,14 +1,17 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import {GoogleGenAI} from '@google/genai';
 
-const client = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 export async function getEmbeddings(text: string) {
     try {
-        const model = client.getGenerativeModel({ model: "gemini-embedding-exp-03-07"});
-        const response = await model.embedContent(text.replace(/\n/g, " "));
-        
-        console.log(response);
-        return response.embedding.values;
+        const result = await ai.models.embedContent({
+            model: "text-embedding-004",
+            contents: text.replace(/\n/g, " ") ,
+            config: { outputDimensionality: 10 },
+          });
+          console.log(result.embeddings);
+          console.log(result.embeddings?.values);
+          return result.embeddings?.values
     } catch (error) {
         console.error("error getting Gemini embeddings", error);
         throw error;
