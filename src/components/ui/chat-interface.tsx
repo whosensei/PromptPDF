@@ -136,13 +136,15 @@ export function ChatInterface() {
         }`}
       >
         {/* Header */}
-        <header className="h-16 border-b border-zinc-800 flex items-center px-4">
-          {!sidebarOpen && !sidebarHover && (
-            <Button variant="ghost" size="icon" className="mr-2 text-zinc-400 hover:text-white" onClick={toggleSidebar}>
-              <Menu className="h-5 w-5" />
-            </Button>
-          )}
-          <h1 className="text-xl font-bold text-white">Financial Report.pdf</h1>
+        <header className="h-16 border-b border-zinc-800 flex items-center justify-between px-4">
+          <div className="flex items-center">
+            {!sidebarOpen && !sidebarHover && (
+              <Button variant="ghost" size="icon" className="mr-2 text-zinc-400 hover:text-white" onClick={toggleSidebar}>
+                <Menu className="h-5 w-5" />
+              </Button>
+            )}
+            <h1 className="text-xl font-bold text-white">Financial Report.pdf</h1>
+          </div>
         </header>
 
         {/* Messages */}

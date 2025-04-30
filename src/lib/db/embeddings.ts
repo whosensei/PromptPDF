@@ -1,28 +1,16 @@
-import {OpenAIApi, Configuration} from "openai-edge"
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const config =  new Configuration({
-    apiKey : process.env.OPENAI_API_KEY,
-})
+const client = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
 
-const openai = new OpenAIApi(config);
-
-
-//converts text into embeddings
-export async function getEmbeddings(text : string) {
-    try{
-        const response = await openai.createEmbedding({
-            model: "text-embedding-ada-002",
-            input: text.replace(/\n/g, " "),
-        })
-
-        const result = await response.json();
-        console.log(result)
-        return result.data[0].embedding as number[];
-
-    }catch(error){
-        console.log("error getting openai embeddings", error);
+export async function getEmbeddings(text: string) {
+    try {
+        const model = client.getGenerativeModel({ model: "gemini-embedding-exp-03-07"});
+        const response = await model.embedContent(text.replace(/\n/g, " "));
+        
+        console.log(response);
+        return response.embedding.values;
+    } catch (error) {
+        console.error("error getting Gemini embeddings", error);
         throw error;
     }
 }
-
- 
