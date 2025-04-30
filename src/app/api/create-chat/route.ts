@@ -4,10 +4,12 @@ import {loadS3intoPinecone} from "../../../lib/db/pinecone";
 import { db } from "@/lib/db";
 import { getS3Url } from "@/lib/db/s3";
 import { chats } from "@/lib/db/schema";
+import axios from "axios"
 
 export async function POST (req : Request , res : Response) {
-    // const {userId} = await auth();  clerk auth
-    const userId = ""
+    const userId = parseInt(await axios.get("/api/user"))
+    console.log(userId)
+
     if(!userId){
         return NextResponse.json({error: "Unauthorized"},{status : 401})
     }
