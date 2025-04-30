@@ -10,7 +10,6 @@ export function getS3Url(file_key: string) {
  * Uploads a file to S3 by fetching a presigned URL via axios, then PUTting the file.
  */
 export async function uploadToS3(file: File): Promise<{ file_key: string; file_name: string }> {
-  // Request a presigned upload URL using axios
   const presignResult = await axios.post('/api/upload-url', {
     fileName: file.name,
     fileType: file.type,
@@ -20,7 +19,6 @@ export async function uploadToS3(file: File): Promise<{ file_key: string; file_n
   }
   const { url, key: file_key } = presignResult.data;
 
-  // Upload the file to S3 using the presigned URL
   const uploadResult = await axios.put(url, file, {
     headers: { 'Content-Type': file.type },
   });

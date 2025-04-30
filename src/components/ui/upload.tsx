@@ -1,19 +1,60 @@
 "use client"
 import { Button } from "./button"
 import { useRouter } from "next/navigation"
-import { Fileupload } from "./Fileupload"
 import { Upload, MessageCircle } from "lucide-react"
-import { useState } from "react"
+import { useState, useCallback } from "react"
 import { FadeUp } from "./fade-up"
+import debounce from "lodash/debounce"
+import axios from "axios"
+import { uploadToS3 } from "@/lib/db/s3"
+import { toast } from "react-hot-toast"
 
 export function UploadFile() {
     const router = useRouter()
     const [isNavigating, setIsNavigating] = useState(false)
+    const [uploading, setUploading] = useState(false)
 
-    const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-        Fileupload()
-        console.log("File selected:", e.target.files?.[0])
-    }
+    const handleFileUpload = useCallback(
+        debounce(async (e: React.ChangeEvent<HTMLInputElement>) => {
+            const file = e.target.files?.[0]
+            if (!file) return
+
+            if (file.size > 10 * 1024 * 1024) {
+                toast.error("Please upload a file less than 10MB")
+                return
+            }
+
+            try {
+                setUploading(true)
+                const data = await uploadToS3(file)
+                console.log("file uploaded", data)
+
+                if (!data?.file_key || !data.file_name) {
+                    toast.error("Something went wrong")
+                    return
+                }
+
+                try {
+                    const response = await axios.post("/api/create-chat", {
+                        file_key: data.file_key,
+                        file_name: data.file_name
+                    })
+                    const { chat_id } = response.data
+                    toast.success("File uploaded successfully!")
+                    router.push(`/chat/${chat_id}`)
+                } catch (error) {
+                    console.error(error)
+                    toast.error("Error creating chat")
+                }
+            } catch (error) {
+                console.error(error)
+                toast.error("Failed to upload file")
+            } finally {
+                setUploading(false)
+            }
+        }, 300),
+        [router]
+    )
 
     const handleGoToChats = () => {
         setIsNavigating(true)
