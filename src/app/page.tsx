@@ -18,7 +18,6 @@ import { db } from "@/lib/db"
 import { chats } from "@/lib/db/schema"
 import { eq } from "drizzle-orm"
 import Image from "next/image"
-import DemoInterface from "@/components/DemoInterface"
 
 export default async function Home() {
   const { userId } = await auth()
