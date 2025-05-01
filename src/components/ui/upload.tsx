@@ -6,7 +6,7 @@ import { useState, useCallback } from "react"
 import { FadeUp } from "./fade-up"
 import debounce from "lodash/debounce"
 import axios from "axios"
-import { uploadToS3 } from "@/lib/db/s3"
+import { uploadToS3 } from "@/lib/s3"
 import { toast } from "react-hot-toast"
 
 export function UploadFile() {
