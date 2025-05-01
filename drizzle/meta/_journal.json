@@ -8,6 +8,13 @@
       "when": 1745263440933,
       "tag": "0000_abnormal_wiccan",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1746094546774,
+      "tag": "0001_spooky_tigra",
+      "breakpoints": true
     }
   ]
 }
