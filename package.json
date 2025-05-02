@@ -28,6 +28,7 @@
     "@types/jsonwebtoken": "^9.0.9",
     "@types/lodash": "^4.17.16",
     "@types/md5": "^2.3.5",
+    "@vercel/analytics": "^1.5.0",
     "ai": "^4.3.12",
     "aws-sdk": "^2.1692.0",
     "axios": "^1.8.4",

@@ -5,6 +5,7 @@ import { Inter } from "next/font/google"
 import { ClerkProvider } from "@clerk/nextjs"
 import Providers from "@/components/Providers"
 import { Toaster } from "react-hot-toast"
+import { Analytics } from "@vercel/analytics/react"
 import ConditionalNavbarFooter from "@/components/ConditionalNavbarFooter"
 
 const inter = Inter({
@@ -27,6 +28,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <Providers>
+        <Analytics />
         <html lang="en" className="scroll-smooth">
           <body className={`${inter.variable} font-sans antialiased`}>
             <ConditionalNavbarFooter>
