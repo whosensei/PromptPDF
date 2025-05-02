@@ -38,6 +38,7 @@ export default async function Home() {
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-mistyblue/5 to-transparent opacity-70"></div>
           <div className="absolute top-1/4 right-0 w-96 h-96 bg-orange/10 rounded-full filter blur-3xl"></div>
+          <div className="absolute top-1/4 left-0 w-96 h-96 bg-orange/10 rounded-full filter blur-3xl"></div>
           <div className="absolute bottom-0 left-1/4 w-64 h-64 bg-mistyblue/20 rounded-full filter blur-3xl"></div>
         </div>
 
