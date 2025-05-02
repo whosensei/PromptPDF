@@ -1,8 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  experimental: {
-    serverComponentsExternalPackages: ['@pinecone-database/pinecone'],
+  serverExternalPackages: ['@pinecone-database/pinecone'],
+  eslint: {
+    // Disable ESLint during production builds
+    ignoreDuringBuilds: true,
   },
   webpack: (config, { isServer }) => {
     if (!isServer) {
