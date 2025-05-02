@@ -7,15 +7,13 @@ const Footer = () => {
       <div
         className="relative rounded-3xl overflow-hidden shadow-xl mx-auto max-w-7xl"
         style={{
-          backgroundImage: "url('/images/footer-bg.png')",
+          backgroundImage: "url('/public/footer-bg.png')",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
       >
-        {/* Glass overlay */}
         <div className="absolute inset-0 bg-gradient-to-r from-orange/10 to-white/30 backdrop-blur-sm"></div>
 
-        {/* Content */}
         <div className="relative z-10 py-16 px-8 md:px-12">
           <div className="max-w-7xl mx-auto">
             <div className="mb-12">
