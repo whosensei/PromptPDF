@@ -23,7 +23,6 @@ type PDFPage = {
 };
 
 export async function loadS3IntoPinecone(fileKey: string) {
-    // 1. obtain the pdf -> downlaod and read from pdf
     console.log("downloading s3 into file system");
     const file_name = await downloadFromS3(fileKey);
     if (!file_name) {
@@ -33,13 +32,10 @@ export async function loadS3IntoPinecone(fileKey: string) {
     const loader = new PDFLoader(file_name);
     const pages = (await loader.load()) as PDFPage[];
 
-    // 2. split and segment the pdf
     const documents = await Promise.all(pages.map(prepareDocument));
 
-    // 3. vectorise and embed individual documents
     const vectors = await Promise.all(documents.flat().map(embedDocument));
 
-    // 4. upload to pinecone
     const client = await getPineconeClient();
     const pineconeIndex = await client.index(process.env.PINECONE_INDEX_NAME || "pdfgenie-yt");
     const namespace = pineconeIndex.namespace(convertToAscii(fileKey));
@@ -77,7 +73,6 @@ export const truncateStringByBytes = (str: string, bytes: number) => {
 async function prepareDocument(page: PDFPage) {
     let { pageContent, metadata } = page;
     pageContent = pageContent.replace(/\n/g, "");
-    // split the docs
     const splitter = new RecursiveCharacterTextSplitter();
     const docs = await splitter.splitDocuments([
         new Document({

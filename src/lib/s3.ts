@@ -1,6 +1,5 @@
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 
-// Initialize S3 client once
 const s3Client = new S3Client({
   region: "eu-north-1",
   credentials: {
@@ -15,7 +14,6 @@ export async function uploadToS3(
   try {
     const file_key = "uploads/" + Date.now().toString() + "-" + file.name.replace(/\s+/g, "-");
     
-    // Convert File to ArrayBuffer
     const fileArrayBuffer = await file.arrayBuffer();
     
     const params = {
@@ -39,7 +37,6 @@ export async function uploadToS3(
 }
 
 export function getS3Url(file_key: string) {
-  // Use the correct region here as well
   const url = `https://${process.env.NEXT_PUBLIC_S3_BUCKET_NAME}.s3.eu-north-1.amazonaws.com/${file_key}`;
   return url;
 }

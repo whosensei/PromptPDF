@@ -36,20 +36,13 @@ const Navbar = () => {
           <span className="text-2xl font-semibold gradient-text">PromptPDF</span>
         </Link>
 
-        {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-8">
           <Link href="#features" className="text-charcoal/80 hover:text-orange transition-colors">
             Features
           </Link>
-          {/* <Link href="#demo" className="text-charcoal/80 hover:text-orange transition-colors">
-            Demo
-          </Link> */}
           <Link href="#use-cases" className="text-charcoal/80 hover:text-orange transition-colors">
             Use Cases
           </Link>
-          {/* <Link href="#pricing" className="text-charcoal/80 hover:text-orange transition-colors">
-            Pricing
-          </Link> */}
 
           {isSignedIn ? (
             <div className="flex items-center space-x-4">
@@ -64,7 +57,6 @@ const Navbar = () => {
           )}
         </nav>
 
-        {/* Mobile Menu Button */}
         <div className="md:hidden flex items-center">
           {isSignedIn && <UserButton afterSignOutUrl="/"  />}
           <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="text-charcoal focus:outline-none">
@@ -73,7 +65,6 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Menu */}
       {isMobileMenuOpen && (
         <div className="md:hidden bg-white absolute top-full left-0 right-0 shadow-md animate-fade-in">
           <div className="flex flex-col space-y-4 p-6">

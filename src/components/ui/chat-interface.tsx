@@ -57,7 +57,6 @@ export function ChatInterface() {
       setInputValue("")
 
       try {
-        // Simulate API call
         await new Promise((resolve) => setTimeout(resolve, 1000))
         
         const botResponse: Message = {
@@ -129,13 +128,11 @@ export function ChatInterface() {
         </div>
       </div>
 
-      {/* Main chat area */}
       <div
         className={`flex-1 flex flex-col transition-all duration-300 ${
           (sidebarOpen || sidebarHover) && sidebarLocked ? "ml-[280px]" : "ml-0"
         }`}
       >
-        {/* Header */}
         <header className="h-16 border-b border-zinc-800 flex items-center justify-between px-4">
           <div className="flex items-center">
             {!sidebarOpen && !sidebarHover && (
@@ -147,7 +144,6 @@ export function ChatInterface() {
           </div>
         </header>
 
-        {/* Messages */}
         <div className="flex-1 overflow-auto p-4 bg-gradient-to-b from-zinc-900 to-black">
           <div className="max-w-3xl mx-auto space-y-6">
             {messages.map((message) => (
@@ -181,7 +177,6 @@ export function ChatInterface() {
           </div>
         </div>
 
-        {/* Input area */} 
         <div className="border-t border-zinc-800 p-4 bg-zinc-900/90 backdrop-blur-sm">
           <div className="max-w-3xl mx-auto">
             <div className="flex items-end gap-2">

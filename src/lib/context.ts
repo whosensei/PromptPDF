@@ -12,7 +12,6 @@ export async function getMatchesFromEmbeddings(
       apiKey: process.env.PINECONE_API_KEY!,
     });
     
-    // Use environment variable for index name to support different environments
     const indexName = process.env.PINECONE_INDEX_NAME || "pdfgenie-yt";
     console.log(`Using Pinecone index: ${indexName}`);
     
@@ -29,7 +28,7 @@ export async function getMatchesFromEmbeddings(
     return queryResult.matches || [];
   } catch (error) {
     console.error("Error querying embeddings from Pinecone:", error);
-    return []; // Return empty array instead of throwing to avoid cascading errors
+    return [];
   }
 }
 
@@ -61,7 +60,6 @@ export async function getContext(query: string, fileKey: string): Promise<string
       pageNumber: number;
     };
 
-    // Filter out undefined texts and handle possible undefined metadata
     let docs = qualifyingDocs
       .map(match => {
         if (!match.metadata) {
@@ -77,7 +75,6 @@ export async function getContext(query: string, fileKey: string): Promise<string
       return "Retrieved content was invalid or empty.";
     }
     
-    // Join documents and limit length
     const context = docs.join("\n").substring(0, 3000);
     console.log(`Generated context of length ${context.length}`);
     return context;

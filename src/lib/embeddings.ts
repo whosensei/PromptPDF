@@ -4,10 +4,8 @@ const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 export async function getEmbeddings(text: string): Promise<number[] | null> {
     try {
-        // Clean up newline characters and ensure text isn't too long
         text = text.replace(/\n/g, " ");
         
-        // Gemini has token limits - truncate if necessary
         if (text.length > 5000) {
             text = text.substring(0, 5000);
         }
@@ -22,26 +20,20 @@ export async function getEmbeddings(text: string): Promise<number[] | null> {
             },
         });
         
-        // Detailed logging of the response structure for debugging
         console.log('Embeddings result received:', JSON.stringify(result, null, 2).substring(0, 200) + '...');
         
-        // Cast the result to any to handle different response structures
         const anyResult = result as any;
         
-        // In newer Gemini API versions, embeddings might be in result.embedding
         if (anyResult.embedding) {
             const embeddingArray = Array.isArray(anyResult.embedding) ? anyResult.embedding : [];
             console.log(`Successfully processed ${embeddingArray.length} embeddings from embedding property`);
             return embeddingArray.map(Number);
         }
         
-        // For older API versions or alternative response formats
         if (result.embeddings) {
             try {
-                // Navigate through possible structures
                 const embeddings = result.embeddings as any;
                 
-                // Check if embeddings is an array with values property
                 if (Array.isArray(embeddings) && embeddings.length > 0) {
                     if (embeddings[0].values) {
                         const values = embeddings[0].values;
@@ -50,14 +42,12 @@ export async function getEmbeddings(text: string): Promise<number[] | null> {
                     }
                 }
                 
-                // Check if embeddings has a direct values property
                 if (embeddings.values) {
                     const values = embeddings.values;
                     console.log(`Successfully processed ${values.length} embeddings from direct values property`);
                     return Array.isArray(values) ? values.map(Number) : [];
                 }
                 
-                // Check if embeddings is directly an array of numbers
                 if (Array.isArray(embeddings) && embeddings.length > 0) {
                     console.log(`Successfully processed ${embeddings.length} embeddings from direct array`);
                     return embeddings.map(Number);

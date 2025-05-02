@@ -15,7 +15,6 @@ const ChatComponent = ({ chatId }: Props) => {
   const queryClient = useQueryClient()
   const [messageSent, setMessageSent] = useState(false)
 
-  // Query for messages with refetching on focus and polling
   const { data, isLoading, refetch } = useQuery({
     queryKey: ["chat", chatId],
     queryFn: async () => {
@@ -24,9 +23,9 @@ const ChatComponent = ({ chatId }: Props) => {
       })
       return response.data
     },
-    refetchInterval: 3000, // Poll every 3 seconds continuously
+    refetchInterval: 3000,
     refetchOnWindowFocus: true,
-    staleTime: 0, // Consider data stale immediately to encourage refetching
+    staleTime: 0,
   })
 
   const {
@@ -43,11 +42,9 @@ const ChatComponent = ({ chatId }: Props) => {
     initialMessages: data || [],
   })
 
-  // Combine messages from database with AI SDK messages
   const allMessages = React.useMemo(() => {
     if (!data) return aiMessages
 
-    // Get newest messages from AI SDK that might not be in DB yet
     const newestMessages = aiMessages.filter(
       (msg) => !data.some((dbMsg) => dbMsg.content === msg.content && dbMsg.role === msg.role),
     )
@@ -55,21 +52,17 @@ const ChatComponent = ({ chatId }: Props) => {
     return [...data, ...newestMessages]
   }, [data, aiMessages])
 
-  // Custom submit handler
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     setMessageSent(true)
     await originalHandleSubmit(e)
   }
 
-  // When a message is sent, set up more frequent polling
   useEffect(() => {
     if (messageSent) {
-      // Set up an interval to check more frequently for new messages when expecting a response
       const interval = setInterval(() => {
         refetch()
       }, 1000)
 
-      // Clean up interval after 10 seconds or when loading stops
       const timeout = setTimeout(() => {
         clearInterval(interval)
         setMessageSent(false)
@@ -82,7 +75,6 @@ const ChatComponent = ({ chatId }: Props) => {
     }
   }, [messageSent, refetch])
 
-  // When AI stops loading, refetch once more and stop polling
   useEffect(() => {
     if (messageSent && !isChatLoading) {
       refetch()
@@ -90,7 +82,6 @@ const ChatComponent = ({ chatId }: Props) => {
     }
   }, [isChatLoading, messageSent, refetch])
 
-  // Scroll effect
   useEffect(() => {
     const messageContainer = document.getElementById("message-container")
     if (messageContainer) {
@@ -103,13 +94,11 @@ const ChatComponent = ({ chatId }: Props) => {
 
   return (
     <div className="flex flex-col h-full" id="message-container">
-      {/* header */}
       <div className="sticky top-0 inset-x-0 p-4 bg-white border-b border-orange/10 z-10 shadow-sm">
         <h3 className="text-lg font-medium text-charcoal">Chat with Document</h3>
         <p className="text-sm text-charcoal/60">Ask questions about your PDF</p>
       </div>
 
-      {/* message list */}
       <div className="flex-1 overflow-y-auto px-4">
         <MessageList messages={allMessages} isLoading={isLoading || (messageSent && isChatLoading)} />
       </div>

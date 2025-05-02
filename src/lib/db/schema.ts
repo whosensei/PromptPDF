@@ -1,6 +1,6 @@
 import { pgTable ,serial, text, primaryKey,timestamp,varchar ,integer,pgEnum} from "drizzle-orm/pg-core"
 
-export const userSystemEnum  = pgEnum("user_system_enum" ,["system","user"]); // enum restricts a variable to have predefined values
+export const userSystemEnum  = pgEnum("user_system_enum" ,["system","user"]);
 
 export const chats = pgTable("chats", {
     id: serial("id").primaryKey(),

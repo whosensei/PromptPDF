@@ -31,7 +31,6 @@ export function ChatInterface() {
   const [sidebarLocked, setSidebarLocked] = useState(true)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
-  // Scroll to bottom when messages change
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
   }, [messages])
@@ -39,7 +38,6 @@ export function ChatInterface() {
   const handleSendMessage = () => {
     if (!inputValue.trim()) return
 
-    // Add user message
     const newMessage: Message = {
       id: Date.now().toString(),
       content: inputValue,
@@ -49,7 +47,6 @@ export function ChatInterface() {
     setMessages((prev) => [...prev, newMessage])
     setInputValue("")
 
-    // Simulate bot response
     setTimeout(() => {
       const botResponse: Message = {
         id: (Date.now() + 1).toString(),
@@ -73,17 +70,15 @@ export function ChatInterface() {
     setSidebarOpen(!sidebarOpen)
   }
 
-  // Handle mouse movement for sidebar hover effect
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!sidebarLocked) {
-      const threshold = 50 // pixels from left edge
+      const threshold = 50
       setSidebarHover(e.clientX <= threshold)
     }
   }
 
   return (
     <div className="flex h-screen bg-zinc-900 relative" onMouseMove={handleMouseMove}>
-      {/* Sidebar */}
       <div
         className={`fixed top-0 left-0 h-full z-20 transition-all duration-300 ease-in-out ${
           sidebarOpen || sidebarHover ? "translate-x-0" : "-translate-x-full"
@@ -115,14 +110,12 @@ export function ChatInterface() {
         </div>
       </div>
 
-      {/* Main chat area */}
       <div
         className={`flex-1 flex flex-col transition-all duration-300 ${
           (sidebarOpen || sidebarHover) && sidebarLocked ? "ml-[280px]" : "ml-0"
         }`}
       >
 
-        {/* Messages */}
         <div className="flex-1 overflow-auto p-4 bg-gradient-to-b from-zinc-900 to-black">
           <div className="max-w-3xl mx-auto space-y-6">
             {messages.map((message) => (
@@ -156,7 +149,6 @@ export function ChatInterface() {
           </div>
         </div>
 
-        {/* Input area */}
         <div className="border-t border-zinc-800 p-4 bg-zinc-900/90 backdrop-blur-sm">
           <div className="max-w-3xl mx-auto">
             <div className="flex items-end gap-2">
