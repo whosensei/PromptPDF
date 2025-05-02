@@ -7,9 +7,9 @@ import React from "react";
 import ResizablePanelsLayout from "@/components/ResizablePanelsLayout";
 
 type Props = {
-  params: {
+  params: Promise<{
     chatId: string;
-  };
+  }>;
 };
 
 const ChatPage = async ({ params }: Props) => {

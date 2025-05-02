@@ -95,11 +95,19 @@ export function UploadFile() {
                                 size="lg"
                                 className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
                                 onClick={handleGoToChats}
-                                loading={isNavigating}
-                                loadingText="Loading chats..."
+                                disabled={isNavigating}
                             >
-                                <MessageCircle className="mr-2 h-4 w-4" />
-                                Go to Chats
+                                {isNavigating ? (
+                                    <>
+                                        <span className="animate-spin mr-2">⟳</span>
+                                        Loading chats...
+                                    </>
+                                ) : (
+                                    <>
+                                        <MessageCircle className="mr-2 h-4 w-4" />
+                                        Go to Chats
+                                    </>
+                                )}
                             </Button>
                         </div>
                     </div>

@@ -84,7 +84,7 @@ export default async function Home() {
               <Link href={isAuth?"/upload":"#demo"}>
                 <Button
                   variant="outline"
-                  className="rounded-md px-6 py-6 text-lg border-charcoal/20 text-charcoal hover:bg-charcoal/5 w-full sm:w-auto shadow-md hover:shadow-lg transition-all duration-300"
+                  className="rounded-md px-6 py-6 text-lg border-charcoal/20 text-charcoal hover:bg-charcoal/5 hover:text-charcoal w-full sm:w-auto shadow-md hover:shadow-lg transition-all duration-300"
                 >
                   {isAuth ? "Upload a PDF" : "See How It Works"}
                   
@@ -163,9 +163,9 @@ export default async function Home() {
             <div className="bg-mistyblue/10 w-14 h-14 rounded-lg flex items-center justify-center mb-6 shadow-md">
               <BookOpen className="h-7 w-7 text-mistyblue" />
             </div>
-            <h3 className="text-xl font-medium mb-3">Citation Support</h3>
+            <h3 className="text-xl font-medium mb-3">Language Support</h3>
             <p className="text-charcoal/70">
-              Every insight comes with precise citations, making it easy to reference and verify information.
+            Work with documents in multiple languages seamlessly—translate, summarize, and query across language barriers with AI.
             </p>
           </div>
         </div>

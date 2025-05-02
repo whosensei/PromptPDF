@@ -56,11 +56,19 @@ export function HeroSection() {
                                     size="lg"
                                     className="bg-primary text-primary-foreground hover:bg-primary/90"
                                     onClick={handleLogin}
-                                    loading={isNavigating}
-                                    loadingText="Redirecting..."
+                                    disabled={isNavigating}
                                 >
-                                    Login to get started
-                                    <LogIn className="ml-2 h-4 w-4" />
+                                    {isNavigating ? (
+                                        <>
+                                            <span className="animate-spin mr-2">⟳</span>
+                                            Redirecting...
+                                        </>
+                                    ) : (
+                                        <>
+                                            Login to get started
+                                            <LogIn className="ml-2 h-4 w-4" />
+                                        </>
+                                    )}
                                 </Button>
                             </FadeUp>
                         </div>

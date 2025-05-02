@@ -217,12 +217,19 @@ export function ChatInterface() {
                     onClick={handleSendMessage}
                     size="sm"
                     className="bg-primary text-primary-foreground hover:bg-primary/90"
-                    loading={isSending}
-                    loadingText="Sending..."
                     disabled={!inputValue.trim() || isSending}
                   >
-                    <Send className="h-4 w-4 mr-2" />
-                    Send
+                    {isSending ? (
+                      <>
+                        <span className="animate-spin mr-2">⟳</span>
+                        Sending...
+                      </>
+                    ) : (
+                      <>
+                        <Send className="h-4 w-4 mr-2" />
+                        Send
+                      </>
+                    )}
                   </Button>
                 </div>
               </div>
