@@ -74,9 +74,9 @@ export default async function Home() {
                   </Button>
                 </Link>
               ) : (
-                <Link href={isAuth ? "/upload" : "/sign-up"}>
+                <Link href={isAuth ? "/chat/1" : "/sign-up"}>
                   <Button className="bg-orange hover:bg-orange-light text-white rounded-md px-6 py-6 text-lg w-full sm:w-auto shadow-lg hover:shadow-xl transition-all duration-300">
-                    {isAuth ? "Upload a PDF" : "Get Started for Free"}
+                    {isAuth ? "Go to Your Documents" : "Get Started for Free"}
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </Link>
