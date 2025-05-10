@@ -13,7 +13,7 @@ export async function getEmbeddings(text: string): Promise<number[] | null> {
         console.log(`Requesting embeddings for text of length ${text.length}`);
         
         const result = await ai.models.embedContent({
-            model: 'gemini-embedding-exp-03-07',
+            model: 'text-embedding-004',
             contents: {
                 role: "user",
                 parts: [{ text }]
