@@ -8,13 +8,13 @@ type Props = {
 }
 
 const MessageList = ({ messages, isLoading }: Props) => {
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-full">
-        <Loader2 className="w-6 h-6 text-orange animate-spin" />
-      </div>
-    )
-  }
+  // if (isLoading) {
+  //   return (
+  //     <div className="flex items-center justify-center h-full">
+  //       <Loader2 className="w-6 h-6 text-orange animate-spin" />
+  //     </div>
+  //   )
+  // }
   if (!messages) return <></>
   return (
     <div className="flex flex-col gap-3 py-4 w-full">

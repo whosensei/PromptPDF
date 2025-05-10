@@ -44,11 +44,15 @@ ${context}
 END OF CONTEXT BLOCK
 
 AI assistant will take into account the CONTEXT BLOCK above when answering questions.
+AI assistant will answer the question in bullet points and use numbers for the bullet points.
+EVERY NEW BULLET POINT SHOULD START ON A NEW LINE.
+The bullet point should not start with *.
+AI assistant will answer the question in the same language as the question.
 If the context does not provide the answer to a question, the AI assistant will say, "I'm sorry, but I don't know the answer to that question".
 AI assistant will not apologize for previous responses, but instead will indicate when new information was gained.
 AI assistant will not invent anything that is not drawn directly from the context.
 
-Conversation history:
+Conversation history: 
 `;
 
     messages.forEach((message: Message, index: number) => {
