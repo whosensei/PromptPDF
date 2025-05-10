@@ -8,6 +8,7 @@ import { toast } from "react-hot-toast"
 import { useRouter } from "next/navigation"
 import { motion } from "framer-motion"
 
+
 const FileUpload = () => {
   const router = useRouter()
   const [uploading, setUploading] = useState(false)
@@ -52,6 +53,7 @@ const FileUpload = () => {
   })
 
   return (
+    <>
     <div className="w-full h-full">
       <div
         {...getRootProps({
@@ -100,6 +102,8 @@ const FileUpload = () => {
         </div>
       </div>
     </div>
+    </>
+    
   )
 }
 

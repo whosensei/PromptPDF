@@ -3,7 +3,8 @@ import { redirect } from "next/navigation"
 import { ArrowLeft, CheckCircle2, FileText, Zap } from "lucide-react"
 import Link from "next/link"
 import FileUpload from "@/components/FileUpload"
-
+import Navbar from "@/components/Navbar"
+import Footer from "@/components/Footer"
 export default async function UploadPage() {
   const { userId } = await auth()
 
@@ -12,6 +13,8 @@ export default async function UploadPage() {
   }
 
   return (
+    <>
+    <Navbar />
     <div className="min-h-screen bg-gradient-to-b from-orange/5 to-white pt-32 pb-20">
       <div className="max-w-5xl mx-auto px-6 md:px-12">
         <Link href="/" className="inline-flex items-center text-charcoal/70 hover:text-orange transition-colors mb-8">
@@ -126,5 +129,7 @@ export default async function UploadPage() {
         </div>
       </div>
     </div>
+    <Footer />
+    </>
   )
 }

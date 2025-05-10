@@ -18,7 +18,8 @@ import { db } from "@/lib/db"
 import { chats } from "@/lib/db/schema"
 import { eq } from "drizzle-orm"
 import Image from "next/image"
-
+import Navbar from "@/components/Navbar"
+import Footer from "@/components/Footer"
 export default async function Home() {
   const { userId } = await auth()
   const isAuth = !!userId
@@ -34,6 +35,7 @@ export default async function Home() {
   return (
     <>
       {/* Hero Section */}
+      <Navbar />
       <section className="relative pt-32 pb-20 md:pt-40 md:pb-32 overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-mistyblue/5 to-transparent opacity-70"></div>
@@ -248,6 +250,7 @@ export default async function Home() {
           </div>
         </div>
       </section>
+      <Footer />
 
       {/* Demo Section
       <section id="demo" className="section">
