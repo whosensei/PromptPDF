@@ -94,25 +94,25 @@ const ChatComponent = ({ chatId }: Props) => {
 
   return (
     <div className="flex flex-col h-full" id="message-container">
-      <div className="sticky top-0 inset-x-0 p-4 bg-white border-b border-orange/10 z-10 shadow-sm">
-        <h3 className="text-lg font-medium text-charcoal">Chat with Document</h3>
-        <p className="text-sm text-charcoal/60">Ask questions about your PDF</p>
+      <div className="sticky top-0 inset-x-0 p-4 bg-white dark:bg-black-800 border-b border-orange/10 dark:border-gray-600 z-10 shadow-sm dark:shadow-gray-800/20">
+        <h3 className="text-lg font-medium text-charcoal dark:text-white">Chat with Document</h3>
+        <p className="text-sm text-charcoal/60 dark:text-gray-300">Ask questions about your PDF</p>
       </div>
 
-      <div className="flex-1 overflow-y-auto px-4">
+      <div className="flex-1 overflow-y-auto px-4 bg-white dark:bg-black-800">
         <MessageList messages={allMessages} isLoading={isLoading || (messageSent && isChatLoading)} />
       </div>
 
       <form
         onSubmit={handleSubmit}
-        className="sticky bottom-0 inset-x-0 px-4 py-4 bg-white border-t border-orange/10 z-10 shadow-[0_-2px_10px_rgba(0,0,0,0.05)]"
+        className="sticky bottom-0 inset-x-0 px-4 py-4 bg-white dark:bg-black-800 border-t border-orange/10 dark:border-gray-600 z-10 shadow-[0_-2px_10px_rgba(0,0,0,0.05)] dark:shadow-[0_-2px_10px_rgba(0,0,0,0.2)]"
       >
         <div className="flex">
           <Input
             value={input}
             onChange={handleInputChange}
             placeholder="Ask any question about your document..."
-            className="w-full border-gray-200 focus:border-orange focus:ring-orange rounded-md shadow-sm"
+            className="w-full border-gray-200 dark:border-gray-600 focus:border-orange focus:ring-orange rounded-md shadow-sm bg-white dark:bg-black-700 text-charcoal dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500"
           />
           <Button
             type="submit"

@@ -30,7 +30,7 @@ const MessageList = ({ messages, isLoading }: Props) => {
             <div
               className={cn("rounded-lg px-4 py-2.5 text-sm shadow-md", {
                 "bg-orange text-white": message.role === "user",
-                "bg-gray-100 text-charcoal": message.role === "assistant" || message.role === "system",
+                "bg-gray-100 dark:bg-black-700 text-charcoal dark:text-white": message.role === "assistant" || message.role === "system",
               })}
             >
               <p className="leading-relaxed">{message.content}</p>

@@ -36,32 +36,32 @@
   }
 
   .dark {
-    --background: 0 0% 10%;
-    --foreground: 0 0% 98%;
+    --background: 0 0% 6%;
+    --foreground: 0 0% 95%;
 
-    --card: 0 0% 12%;
-    --card-foreground: 0 0% 98%;
+    --card: 0 0% 8%;
+    --card-foreground: 0 0% 95%;
 
-    --popover: 0 0% 12%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 0 0% 8%;
+    --popover-foreground: 0 0% 95%;
 
     --primary: 20 100% 56%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 200 25% 58%;
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 0 0% 15%;
+    --secondary-foreground: 0 0% 95%;
 
-    --muted: 0 0% 20%;
-    --muted-foreground: 0 0% 65%;
+    --muted: 0 0% 12%;
+    --muted-foreground: 0 0% 60%;
 
-    --accent: 200 25% 58%;
-    --accent-foreground: 0 0% 98%;
+    --accent: 0 0% 15%;
+    --accent-foreground: 0 0% 95%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 0 0% 20%;
-    --input: 0 0% 20%;
+    --border: 0 0% 15%;
+    --input: 0 0% 15%;
     --ring: 20 100% 56%;
   }
 }
@@ -73,6 +73,14 @@
   body {
     @apply bg-offwhite text-charcoal font-light;
     font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  .dark body {
+    @apply bg-black text-gray-100;
+  }
+
+  .dark {
+    color-scheme: dark;
   }
 
   h1,
@@ -110,6 +118,10 @@
     @apply text-transparent bg-clip-text bg-gradient-to-r from-orange to-mistyblue;
   }
 
+  .dark .gradient-text {
+    @apply text-transparent bg-clip-text bg-gradient-to-r from-orange to-orange-light;
+  }
+
   .btn-primary {
     @apply bg-orange text-white hover:bg-orange-light transition-all duration-300 rounded-md px-6 py-3 font-medium;
   }
@@ -119,6 +131,6 @@
   }
 
   .btn-outline {
-    @apply border border-charcoal text-charcoal hover:bg-charcoal hover:text-white transition-all duration-300 rounded-md px-6 py-3 font-medium;
+    @apply border border-charcoal dark:border-gray-600 text-charcoal dark:text-gray-300 hover:bg-charcoal dark:hover:bg-black-700 hover:text-white dark:hover:text-white transition-all duration-300 rounded-md px-6 py-3 font-medium;
   }
 }

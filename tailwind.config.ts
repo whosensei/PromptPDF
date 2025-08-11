@@ -66,6 +66,21 @@ module.exports = {
 			light: "#A5C1CE",
 			dark: "#5A7E8F",
 		  },
+		  // Dark mode black shades
+		  "black-900": "#0A0A0A",
+		  "black-800": "#1A1A1A", 
+		  "black-700": "#2A2A2A",
+		  "black-600": "#3A3A3A",
+		  "black-500": "#4A4A4A",
+		  "gray-dark": "#9CA3AF",
+		},
+		opacity: {
+		  '2': '0.02',
+		  '3': '0.03',
+		},
+		backgroundImage: {
+		  "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
+		  "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
 		},
 		borderRadius: {
 		  lg: "var(--radius)",
@@ -90,8 +105,18 @@ module.exports = {
 			"100%": { opacity: 1, transform: "translateY(0)" },
 		  },
 		  float: {
-			"0%, 100%": { transform: "translateY(0)" },
-			"50%": { transform: "translateY(-10px)" },
+			"0%, 100%": { transform: "translateY(0) rotate(0deg)" },
+			"33%": { transform: "translateY(-10px) rotate(1deg)" },
+			"66%": { transform: "translateY(-5px) rotate(-1deg)" },
+		  },
+		  "float-slow": {
+			"0%, 100%": { transform: "translateY(0) scale(1)" },
+			"50%": { transform: "translateY(-20px) scale(1.05)" },
+		  },
+		  "slide-diagonal": {
+			"0%": { transform: "translate(-100px, 100px) opacity(0)" },
+			"50%": { opacity: "0.5" },
+			"100%": { transform: "translate(0, 0) opacity(1)" },
 		  },
 		},
 		animation: {
@@ -100,6 +125,8 @@ module.exports = {
 		  "fade-in": "fade-in 0.5s ease-out",
 		  "fade-up": "fade-up 0.7s ease-out",
 		  float: "float 6s ease-in-out infinite",
+		  "float-slow": "float-slow 8s ease-in-out infinite",
+		  "slide-diagonal": "slide-diagonal 1s ease-out",
 		},
 	  },
 	},

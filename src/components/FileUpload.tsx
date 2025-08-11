@@ -59,9 +59,9 @@ const FileUpload = () => {
         {...getRootProps({
           className: `
             relative border-2 border-dashed rounded-xl transition-all duration-300 
-            ${dragActive ? "border-orange bg-orange/5" : "border-orange/30 bg-white"} 
-            hover:border-orange hover:bg-orange/5 cursor-pointer p-8 md:p-12
-            shadow-lg hover:shadow-xl
+            ${dragActive ? "border-orange bg-orange/5 dark:bg-orange/10" : "border-orange/30 dark:border-orange/50 bg-white dark:bg-black-700"} 
+            hover:border-orange hover:bg-orange/5 dark:hover:bg-orange/10 cursor-pointer p-8 md:p-12
+            shadow-lg hover:shadow-xl dark:shadow-gray-800/20 dark:hover:shadow-gray-800/30
           `,
         })}
       >
@@ -75,8 +75,8 @@ const FileUpload = () => {
               className="flex flex-col items-center"
             >
               <Loader2 className="h-12 w-12 text-orange animate-spin mb-4" />
-              <h3 className="text-xl font-medium text-charcoal mb-2">Processing your PDF</h3>
-              <p className="text-charcoal/70">We're preparing your document for AI analysis...</p>
+              <h3 className="text-xl font-medium text-charcoal dark:text-white mb-2">Processing your PDF</h3>
+              <p className="text-charcoal/70 dark:text-gray-300">We're preparing your document for AI analysis...</p>
             </motion.div>
           ) : (
             <motion.div
@@ -85,18 +85,18 @@ const FileUpload = () => {
               transition={{ duration: 0.5 }}
               className="flex flex-col items-center"
             >
-              <div className="mb-4 p-4 bg-orange/10 rounded-full shadow-md">
+              <div className="mb-4 p-4 bg-orange/10 dark:bg-orange/20 rounded-full shadow-md">
                 <FileText className="h-10 w-10 text-orange" />
               </div>
-              <h3 className="text-xl font-medium text-charcoal mb-2">Upload your PDF</h3>
-              <p className="text-charcoal/70 mb-4 max-w-md">
+              <h3 className="text-xl font-medium text-charcoal dark:text-white mb-2">Upload your PDF</h3>
+              <p className="text-charcoal/70 dark:text-gray-300 mb-4 max-w-md">
                 Drag and drop your PDF file here, or click to browse your files
               </p>
               <div className="inline-flex items-center px-4 py-2 bg-orange text-white rounded-full text-sm font-medium shadow-md hover:shadow-lg transition-all duration-300">
                 <Upload className="h-4 w-4 mr-2" />
                 <span>Select PDF file</span>
               </div>
-              <p className="mt-4 text-xs text-charcoal/50">Maximum file size: 10MB</p>
+              <p className="mt-4 text-xs text-charcoal/50 dark:text-gray-400">Maximum file size: 10MB</p>
             </motion.div>
           )}
         </div>

@@ -30,7 +30,7 @@ const ChatPage = async ({ params }: Props) => {
   // const isPro = await checkSubscription();
 
   return (
-    <div className="h-screen w-full overflow-hidden">
+    <div className="h-screen w-full overflow-hidden bg-white dark:bg-black">
       <ResizablePanelsLayout 
         chats={_chats} 
         chatId={parseInt(chatId)} 

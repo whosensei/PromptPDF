@@ -19,13 +19,13 @@ const ResizablePanelsLayout = ({ chats, chatId, pdfUrl }: ResizablePanelsLayoutP
           <ChatSideBar chats={chats} chatId={chatId} />
         </div>
       </Panel>
-      <PanelResizeHandle className="w-1.5 bg-orange/10 hover:bg-orange/30 transition-colors duration-300" />
+      <PanelResizeHandle className="w-1.5 bg-orange/10 dark:bg-gray-600 hover:bg-orange/30 dark:hover:bg-orange/30 transition-colors duration-300" />
       <Panel defaultSize={50} minSize={30}>
         <div className="h-full">
           <PDFViewer pdf_url={pdfUrl} />
         </div>
       </Panel>
-      <PanelResizeHandle className="w-1.5 bg-orange/10 hover:bg-orange/30 transition-colors duration-300" />
+      <PanelResizeHandle className="w-1.5 bg-orange/10 dark:bg-gray-600 hover:bg-orange/30 dark:hover:bg-orange/30 transition-colors duration-300" />
       <Panel defaultSize={30} minSize={20}>
         <div className="h-full">
           <ChatComponent chatId={chatId} />
