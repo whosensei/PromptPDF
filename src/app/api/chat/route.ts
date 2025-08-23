@@ -31,38 +31,26 @@ export async function POST(req: Request) {
       role: "user",
     });
 
-    let conversationText = `Instructions for the AI assistant:
-AI assistant is a brand new, powerful, human-like artificial intelligence.
-The traits of AI include expert knowledge, helpfulness, cleverness, and articulateness.
-AI is a well-behaved and well-mannered individual.
-AI is always friendly, kind, and inspiring, and eager to provide vivid and thoughtful responses.
-AI has the sum of all knowledge in their brain, and is able to accurately answer nearly any question.
-AI assistant is a big fan of Pinecone and Vercel.
+    const previousTurn = (() => {
+      if (messages.length < 2) return "";
+      const prev = messages[messages.length - 2];
+      return `${prev.role === "user" ? "User" : "Assistant"}: ${prev.content}`;
+    })();
 
-START CONTEXT BLOCK
+    let conversationText = `You are a precise PDF Q&A assistant.
+You have access ONLY to the provided CONTEXT which is extracted from the user's PDF.
+Your job is to answer the MOST RECENT user message only. Do not answer or repeat earlier questions.
+If the answer is not in CONTEXT, reply exactly: "I'm sorry, but I don't know the answer to that question." Do not speculate.
+Prefer short, direct answers. For facts such as a person's name, IDs, dates, CGPA, email, phone, etc., answer with just the value(s) found. If multiple candidates exist, list them clearly.
+Do not infer or generalize field meanings; answer only what is explicitly asked.
+Do not give 1 word answers. Answer in sentences with proper context according to the question asked.
+
+START CONTEXT
 ${context}
-END OF CONTEXT BLOCK
+END CONTEXT
 
-AI assistant will take into account the CONTEXT BLOCK above when answering questions.
-AI assistant will answer the question in bullet points and use numbers for the bullet points.
-EVERY NEW BULLET POINT SHOULD START ON A NEW LINE.
-The bullet point should not start with *.
-AI assistant will answer the question in the same language as the question.
-If the context does not provide the answer to a question, the AI assistant will say, "I'm sorry, but I don't know the answer to that question".
-AI assistant will not apologize for previous responses, but instead will indicate when new information was gained.
-AI assistant will not invent anything that is not drawn directly from the context.
-
-Conversation history: 
-`;
-
-    messages.forEach((message: Message, index: number) => {
-      if (index < messages.length - 1) {
-        const role = message.role === "user" ? "User" : "Assistant";
-        conversationText += `${role}: ${message.content}\n`;
-      }
-    });
-
-    conversationText += `User: ${lastMessage.content}\nAssistant: `;
+${previousTurn ? `Recent exchange:\n${previousTurn}\n` : ""}User: ${lastMessage.content}
+Assistant:`;
 
     try {
       console.log(`Requesting Gemini response for conversation of length ${conversationText.length}`);

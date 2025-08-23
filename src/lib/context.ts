@@ -50,7 +50,7 @@ export async function getContext(query: string, fileKey: string): Promise<string
     }
 
     const qualifyingDocs = matches.filter(
-      (match) => match.score && match.score > 0.5
+      (match) => match.score && match.score > 0.3
     );
     
     console.log(`Found ${qualifyingDocs.length} qualifying matches with score > 0.5`);
@@ -60,7 +60,7 @@ export async function getContext(query: string, fileKey: string): Promise<string
       pageNumber: number;
     };
 
-    let docs = qualifyingDocs
+    let docs = (qualifyingDocs.length > 0 ? qualifyingDocs : matches.slice(0, 5))
       .map(match => {
         if (!match.metadata) {
           console.warn("Match missing metadata:", match);
@@ -75,7 +75,7 @@ export async function getContext(query: string, fileKey: string): Promise<string
       return "Retrieved content was invalid or empty.";
     }
     
-    const context = docs.join("\n").substring(0, 3000);
+    const context = docs.join("\n").substring(0, 4000);
     console.log(`Generated context of length ${context.length}`);
     return context;
   } catch (error) {

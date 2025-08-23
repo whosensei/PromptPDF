@@ -45,9 +45,16 @@ const ChatComponent = ({ chatId }: Props) => {
   const allMessages = React.useMemo(() => {
     if (!data) return aiMessages
 
-    const newestMessages = aiMessages.filter(
-      (msg) => !data.some((dbMsg) => dbMsg.content === msg.content && dbMsg.role === msg.role),
+    const normalizeRole = (role: Message["role"]) => (role === "system" ? "assistant" : role)
+
+    const dbKeys = new Set(
+      data.map((dbMsg) => `${normalizeRole(dbMsg.role as Message["role"])}|${(dbMsg.content || "").trim()}`),
     )
+
+    const newestMessages = aiMessages.filter((msg) => {
+      const key = `${normalizeRole(msg.role)}|${(msg.content || "").trim()}`
+      return !dbKeys.has(key)
+    })
 
     return [...data, ...newestMessages]
   }, [data, aiMessages])
