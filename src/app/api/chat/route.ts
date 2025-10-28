@@ -6,7 +6,7 @@ import { chats, messages as _messages } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY  });
 
 export async function POST(req: Request) {
   try {
@@ -15,10 +15,10 @@ export async function POST(req: Request) {
     if (_chats.length != 1) {
       return NextResponse.json({ error: "chat not found" }, { status: 404 });
     }
-    
+
     const fileKey = _chats[0].fileKey;
     const lastMessage = messages[messages.length - 1];
-    
+
     const context = await getContext(lastMessage.content, fileKey);
     if (context === null) {
       console.error("Failed to get context for query:", lastMessage.content);
@@ -55,29 +55,29 @@ Assistant:`;
     try {
       console.log(`Requesting Gemini response for conversation of length ${conversationText.length}`);
       const result = await ai.models.generateContent({
-        model: 'gemini-1.5-flash',
+        model: 'gemini-2.5-flash',
         contents: [{
           role: 'user',
           parts: [{ text: conversationText }]
         }],
       });
-      
+
       if (!result || !result.candidates || result.candidates.length === 0 || !result.candidates[0].content) {
         console.error('No valid response returned from Gemini API', result);
         throw new Error('No valid response returned from Gemini API');
       }
-      
+
       const firstCandidate = result.candidates[0];
       const contentParts = firstCandidate.content!.parts;
-      
+
       if (!contentParts || contentParts.length === 0 || typeof contentParts[0].text !== 'string') {
         console.error('Invalid content structure in Gemini API response', firstCandidate);
         throw new Error('Invalid content structure in Gemini API response');
       }
-      
+
       const aiResponse = contentParts[0].text;
       console.log('Generated response:', aiResponse);
-      
+
       await db.insert(_messages).values({
         chatId,
         content: aiResponse,
